@@ -1,0 +1,42 @@
+{
+  "name": "@andrei-zhaleznichenka/cpu-monitor-poc",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "monitor-agent",
+    "monitor-agent-api",
+    "monitor-client"
+  ],
+  "scripts": {
+    "api": "yarn workspace @andrei-zhaleznichenka/cpu-monitor-agent-api",
+    "agent": "yarn workspace @andrei-zhaleznichenka/cpu-monitor-agent",
+    "client": "yarn workspace @andrei-zhaleznichenka/cpu-monitor-client",
+    "build-api": "yarn api build",
+    "start-agent": "yarn agent start",
+    "start-client": "yarn client start",
+    "lint": "yarn tslint --project . --fix",
+    "format": "yarn prettier --write ."
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "yarn format",
+      "yarn lint"
+    ],
+    "*.{json,yaml,md}": [
+      "yarn format"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "husky": "4.3.0",
+    "lint-staged": "10.5.1",
+    "nodemon": "^2.0.7",
+    "prettier": "2.0.5",
+    "tslint": "6.1.3",
+    "typescript": "4.1.3"
+  }
+}

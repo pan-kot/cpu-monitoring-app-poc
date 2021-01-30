@@ -1,0 +1,21 @@
+# npm
+node_modules
+
+# dist
+build
+dist
+
+# tests
+coverage
+
+# cache
+.eslintcache
+
+# logs
+tsconfig.tsbuildinfo
+
+# notes
+ToDo.txt
+
+# misc
+.DS_Store
