@@ -1,7 +1,5 @@
 import ThemeProvider from './Theme';
 
-import './connection';
-
 type TSetupProps = {
   children: React.ReactNode;
 };

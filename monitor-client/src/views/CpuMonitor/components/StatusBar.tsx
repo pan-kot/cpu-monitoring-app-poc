@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 
-export default function StatusBar() {
+type TProps = {
+  current?: number;
+};
+
+export default function StatusBar({ current = 0 }: TProps) {
   return (
     <Container>
       <div>CPU Monitor</div>
-      <div>10m</div>
+      <div>{current.toFixed(2)}</div>
     </Container>
   );
 }

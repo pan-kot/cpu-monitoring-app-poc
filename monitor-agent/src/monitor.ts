@@ -56,12 +56,13 @@ export default class Monitor {
     for (let i = 0; i < this.maxTicks; i += 1) {
       tick = tick > 0 ? tick - 1 : this.maxTicks - 1;
 
-      const value = this.values[tick];
-
-      if (value !== undefined) {
-        values.push(value);
+      if (this.values[tick] !== undefined) {
+        values.push(this.values[tick]);
       }
     }
+
+    // Recent-most ticks should come first.
+    values.reverse();
 
     const events = this.events;
 

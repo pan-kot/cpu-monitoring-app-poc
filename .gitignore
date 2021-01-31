@@ -15,6 +15,7 @@ coverage
 .eslintcache
 
 # logs
+*.log
 tsconfig.tsbuildinfo
 
 # notes
