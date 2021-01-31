@@ -8,6 +8,9 @@ dist
 # tests
 coverage
 
+# config
+.env
+
 # cache
 .eslintcache
 

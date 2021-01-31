@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export default function AlertsBar() {
-  return <Container></Container>;
+  return <Container />;
 }
 
 const Container = styled.div`
@@ -14,5 +14,5 @@ const Container = styled.div`
 
   border-radius: 2px;
 
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.16);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.16);
 `;

@@ -1,15 +1,45 @@
-export class Ping {
-  value: number;
+// Enums
 
-  constructor(value: number) {
-    this.value = value;
-  }
+export enum EventType {
+  HIGH_LOAD = 'HIGH_LOAD',
+  RECOVERY = 'RECOVERY'
 }
 
-export class Pong {
-  value: number;
+// Commands
 
-  constructor(value: number) {
-    this.value = value;
-  }
-}
+export type Connect = {};
+
+// Events
+
+export type Connected = {
+  settings: Settings;
+  history: History;
+};
+
+export type Tick = {
+  value: number;
+  event: null | EventType;
+};
+
+// DTOs
+
+export type Settings = {
+  tickInterval: number;
+  maxTicks: number;
+  highLoadThreshold: Threshold;
+  recoveryThreshold: Threshold;
+};
+
+export type Threshold = {
+  value: number;
+  ticks: number;
+};
+
+export type History = {
+  values: number[];
+  events: Events;
+};
+
+export type Events = {
+  [tick: number]: EventType;
+};

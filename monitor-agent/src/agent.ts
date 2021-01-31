@@ -1,28 +1,56 @@
+/* tslint:disable:no-console */
+
 import express from 'express';
+import { createServer, Server as HttpServer } from 'http';
 import { Server as WebSocketServer, Socket } from 'socket.io';
-import { Ping, Pong } from '@andrei-zhaleznichenka/cpu-monitor-agent-api';
 
-const port = process.env.PORT || 3001;
+import { Settings, Connected, Tick } from './types';
 
-const app = express();
+import Monitor from './monitor';
 
-const server = require('http').Server(app);
+export default class MonitorAgent {
+  private port: number;
+  private settings: Settings;
 
-const wss = new WebSocketServer(server);
+  private app: express.Application;
+  private server: HttpServer;
+  private wss: WebSocketServer;
+  private monitor: Monitor;
 
-wss.on('connection', (socket: Socket) => {
-  console.log('Connected!');
+  constructor(port: number, settings: Settings) {
+    this.port = port;
+    this.settings = settings;
 
-  socket.on('Ping', (data: Ping) => {
-    console.log('Received ping:', data.value);
+    this.app = express();
+    this.server = createServer(this.app);
+    this.wss = new WebSocketServer(this.server);
+    this.monitor = new Monitor(settings);
+  }
 
-    setTimeout(() => {
-      socket.emit('Pong', new Pong(data.value));
-      console.log('Responded with pong:', data.value);
-    }, 1000);
-  });
-});
+  run() {
+    this.server.listen(this.port, () => {
+      console.log(`Listening on http://localhost:${this.port}.`);
+    });
 
-server.listen(port, () => {
-  console.log(`Listening on http://localhost:${port}.`);
-});
+    this.wss.on('connection', (socket: Socket) => {
+      console.log('Client connected.');
+
+      socket.on('Connect', () => {
+        const message: Connected = {
+          settings: this.settings,
+          history: this.monitor.history
+        };
+
+        socket.emit('Connected', message);
+
+        this.monitor.subscribe((tick: Tick) => {
+          socket.emit('Tick', tick);
+        });
+      });
+
+      socket.on('disconnect', () => {
+        console.log('Client disconnected.');
+      });
+    });
+  }
+}
