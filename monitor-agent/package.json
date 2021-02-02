@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start": "nodemon"
+    "start": "nodemon",
+    "test": "yarn jest",
+    "test-watch": "yarn jest --watchAll"
   },
   "dependencies": {
     "@andrei-zhaleznichenka/cpu-monitor-agent-api": "0.0.0-monorepo",

@@ -6,7 +6,7 @@ import { Server as WebSocketServer, Socket } from 'socket.io';
 
 import { Settings, Connected, Tick } from './types';
 
-import Monitor from './monitor';
+import Monitor from './monitor/monitor';
 
 export default class MonitorAgent {
   private port: number;
