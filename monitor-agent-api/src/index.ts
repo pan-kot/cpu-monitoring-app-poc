@@ -36,7 +36,7 @@ export type Threshold = {
 };
 
 export type History = {
-  values: number[];
+  values: (null | number)[];
   events: Events;
 };
 

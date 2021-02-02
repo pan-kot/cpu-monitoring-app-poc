@@ -2,12 +2,21 @@ import ioclient, { Socket } from 'socket.io-client';
 import { makeAutoObservable } from 'mobx';
 import { createContext } from 'react';
 
-import { Connected, Events, History, Settings, Tick } from '../domain';
+import {
+  Connected,
+  Events,
+  History,
+  Settings,
+  Tick,
+  TimeValue
+} from '../domain';
 
-class MonitorStore {
+export class MonitorStore {
   settings: null | Settings = null;
-  current: number = 0;
-  values: number[] = [0];
+
+  current: number = -1;
+  values: (null | number)[] = [];
+  maximum: number = 0;
   events: Events = {};
 
   socket: typeof Socket;
@@ -25,19 +34,16 @@ class MonitorStore {
   init = (settings: Settings, history: History) => {
     this.settings = settings;
 
-    this.values = Array(settings.maxTicks);
-
-    let tick = 0;
-
-    while (tick < history.values.length) {
-      this.values[tick] = history.values[tick];
-
-      tick += 1;
-    }
-
-    this.current = tick < settings.maxTicks ? tick : 0;
-
+    this.values = history.values;
     this.events = history.events;
+
+    this.current = history.values.length - 1;
+
+    for (const value of this.values) {
+      if (value !== null) {
+        this.maximum = Math.max(this.maximum, value);
+      }
+    }
   };
 
   tick = ({ value, event }: Tick) => {
@@ -45,17 +51,36 @@ class MonitorStore {
       throw new Error('Invariant violation: cannot tick when settings unset.');
     }
 
+    this.current = this.current + 1 < this.values.length ? this.current + 1 : 0;
+
     this.values[this.current] = value;
 
     delete this.events[this.current];
-
     if (event) {
       this.events[this.current] = event;
     }
 
-    this.current =
-      this.current + 1 < this.settings.maxTicks ? this.current + 1 : 0;
+    this.maximum = Math.max(this.maximum, value);
   };
+
+  get timeseries(): TimeValue[] {
+    const series = Array(this.values.length);
+
+    let tick = this.current;
+
+    for (let offset = 0; offset < this.values.length; offset += 1) {
+      const value = this.values[tick];
+      const event = this.events[tick] || null;
+
+      if (value !== undefined && value !== null) {
+        series[offset] = { offset, value, event };
+      }
+
+      tick = tick - 1 >= 0 ? tick - 1 : this.values.length - 1;
+    }
+
+    return series;
+  }
 
   connect = () => {
     this.socket.connect();
