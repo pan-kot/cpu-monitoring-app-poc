@@ -11,9 +11,7 @@
     "api": "yarn workspace @andrei-zhaleznichenka/cpu-monitor-agent-api",
     "agent": "yarn workspace @andrei-zhaleznichenka/cpu-monitor-agent",
     "client": "yarn workspace @andrei-zhaleznichenka/cpu-monitor-client",
-    "build-api": "yarn api build",
-    "start-agent": "yarn agent start",
-    "start-client": "yarn client start",
+    "test": "yarn agent test && yarn client test",
     "format": "yarn prettier --write .",
     "lint": "yarn tslint --project . --fix"
   },
@@ -28,16 +26,19 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && yarn test"
     }
   },
   "devDependencies": {
-    "husky": "^4.3.8",
+    "@types/jest": "26.0.3",
+    "husky": "4.3.8",
     "lint-staged": "10.5.1",
     "nodemon": "2.0.7",
     "prettier": "2.0.5",
-    "tslint": "6.1.3",
+    "ts-jest": "26.4.4",
+    "ts-node": "9.1.1",
     "tslint-react": "5.0.0",
+    "tslint": "6.1.3",
     "typescript": "4.1.3"
   }
 }

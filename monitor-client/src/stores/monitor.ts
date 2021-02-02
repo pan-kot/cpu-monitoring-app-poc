@@ -11,8 +11,15 @@ import {
   TimeValue
 } from '../domain';
 
+const defaultSettings = {
+  tickInterval: 10,
+  maxTicks: 60,
+  highLoadThreshold: { value: 1, ticks: 12 },
+  recoveryThreshold: { value: 1, ticks: 12 }
+};
+
 export class MonitorStore {
-  settings: null | Settings = null;
+  settings: Settings = defaultSettings;
 
   current: number = -1;
   values: (null | number)[] = [];

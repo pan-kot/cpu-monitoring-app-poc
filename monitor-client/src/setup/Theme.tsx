@@ -1,18 +1,56 @@
-import { createGlobalStyle } from 'styled-components';
+import React from 'react';
+import {
+  createGlobalStyle,
+  ThemeProvider,
+  DefaultTheme
+} from 'styled-components';
 
-type TThemeProviderProps = {
+type TThemeSetupProps = {
   children: React.ReactNode;
 };
 
-export default function ThemeProvider({ children }: TThemeProviderProps) {
+export default function ThemeSetup({ children }: TThemeSetupProps) {
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <GlobalStyle />
 
       {children}
-    </>
+    </ThemeProvider>
   );
 }
+
+const theme: DefaultTheme = {
+  body: {
+    fg: '#495458',
+    bg: '#e8e9eb'
+  },
+  card: {
+    bg: '#ffffff',
+    shadow: '0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.16)',
+    radius: '2px'
+  },
+  chart: {
+    bg: '#fafafa',
+    grid: {
+      stroke: '#e0e0e0'
+    },
+    threshold: {
+      stroke: '#58508d'
+    },
+    curve: {
+      area: 'rgba(188, 80, 144, 0.15)',
+      stroke: '#bc5090'
+    },
+    event: {
+      highLoad: {
+        dot: '#d94750'
+      },
+      recovery: {
+        dot: '#52aa57'
+      }
+    }
+  }
+};
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -24,7 +62,9 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    width: 900px;
+    min-width: 600px;
+    max-width: 1200px;
+    width: calc(100% - 100px);
     height: calc(100% - 100px);
 
     margin: 50px auto 50px auto;
@@ -32,10 +72,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
 
     font-size: 14px;
-    font-family: sans-serif;
-    color: rgba(0, 0, 0, 0.75);
+    font-family: Lato;
+    color: ${props => props.theme.body.fg};
 
-    background: #E8E9EB;
+    background: ${props => props.theme.body.bg};
   }
 
   #root {
