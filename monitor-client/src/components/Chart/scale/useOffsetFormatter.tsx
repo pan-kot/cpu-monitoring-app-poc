@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import i18n from '../../../i18n';
 import { Settings } from '../../../domain';
 
 type TProps = {
@@ -7,23 +8,7 @@ type TProps = {
 };
 
 export default function useOffsetFormatter({ settings }: TProps) {
-  return useCallback(
-    offset => {
-      const offsetSeconds = offset * settings.tickInterval;
-
-      const minutes = Math.floor(offsetSeconds / 60);
-      const seconds = offsetSeconds % 60;
-
-      if (minutes && !seconds) {
-        return `${minutes}m`;
-      }
-
-      if (!minutes && seconds) {
-        return `${seconds}s`;
-      }
-
-      return `${minutes}m ${seconds}s`;
-    },
-    [settings.tickInterval]
-  );
+  return useCallback(offset => i18n.duration(offset * settings.tickInterval), [
+    settings.tickInterval
+  ]);
 }

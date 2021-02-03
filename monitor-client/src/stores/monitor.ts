@@ -11,6 +11,9 @@ import {
   TimeValue
 } from '../domain';
 
+import i18n from '../i18n';
+import PushNotifications from '../util/push-notifications';
+
 const defaultSettings = {
   tickInterval: 10,
   maxTicks: 60,
@@ -27,6 +30,7 @@ export class MonitorStore {
   events: Events = {};
 
   socket: typeof Socket;
+  notifications: PushNotifications;
 
   constructor() {
     makeAutoObservable(this, {
@@ -36,6 +40,7 @@ export class MonitorStore {
     });
 
     this.socket = ioclient('ws://localhost:3001/', { autoConnect: false });
+    this.notifications = new PushNotifications();
   }
 
   init = (settings: Settings, history: History) => {
@@ -65,6 +70,8 @@ export class MonitorStore {
     delete this.events[this.current];
     if (event) {
       this.events[this.current] = event;
+
+      this.notifications.push(i18n.event(event), i18n.eventDescription(event));
     }
 
     this.maximum = Math.max(this.maximum, value);

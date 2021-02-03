@@ -16,8 +16,41 @@ const i18n = {
     empty: 'No data.'
   },
   event(type: EventType) {
-    return type === EventType.HIGH_LOAD ? 'High Load' : 'Recovery';
-  }
+    switch (type) {
+      case EventType.HIGH_LOAD:
+        return 'High Load';
+      case EventType.RECOVERY:
+        return 'Recovery';
+      default:
+        return '???';
+    }
+  },
+  eventDescription(type: EventType) {
+    switch (type) {
+      case EventType.HIGH_LOAD:
+        return 'System is under high load.';
+      case EventType.RECOVERY:
+        return 'System recovered after high load.';
+      default:
+        return '???';
+    }
+  },
+  duration: formatDuration
 };
+
+function formatDuration(durationSeconds: number): string {
+  const minutes = Math.floor(durationSeconds / 60);
+  const seconds = durationSeconds % 60;
+
+  if (!seconds) {
+    return `${minutes}m`;
+  }
+
+  if (!minutes) {
+    return `${seconds}s`;
+  }
+
+  return `${minutes}m ${seconds}s`;
+}
 
 export default i18n;
