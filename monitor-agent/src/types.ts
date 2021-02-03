@@ -14,5 +14,8 @@ export {
 export type Env = {
   isProduction: boolean;
   port: number;
+  cors: {
+    origin: string;
+  };
   settings: Settings;
 };

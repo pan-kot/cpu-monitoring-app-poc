@@ -17,14 +17,14 @@ export default class MonitorAgent {
   private wss: WebSocketServer;
   private monitor: Monitor;
 
-  constructor(env: Env) {
-    this.port = env.port;
-    this.settings = env.settings;
+  constructor({ port, cors, settings }: Env) {
+    this.port = port;
+    this.settings = settings;
 
     this.app = express();
     this.server = createServer(this.app);
-    this.wss = new WebSocketServer(this.server, { cors: { origin: '*' } });
-    this.monitor = new Monitor(env.settings);
+    this.wss = new WebSocketServer(this.server, { cors });
+    this.monitor = new Monitor(settings);
   }
 
   run() {

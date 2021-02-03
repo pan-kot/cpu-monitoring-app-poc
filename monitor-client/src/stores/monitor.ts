@@ -1,4 +1,4 @@
-import ioclient, { Socket } from 'socket.io-client';
+import { Socket } from 'socket.io-client';
 import { makeAutoObservable } from 'mobx';
 import { createContext } from 'react';
 
@@ -13,6 +13,7 @@ import {
 
 import i18n from '../i18n';
 import PushNotifications from '../util/push-notifications';
+import initSocket from '../api/init-socket';
 
 const defaultSettings = {
   tickInterval: 10,
@@ -39,7 +40,7 @@ export class MonitorStore {
       notifications: false
     });
 
-    this.socket = ioclient('ws://localhost:3001/', { autoConnect: false });
+    this.socket = initSocket();
     this.connected = false;
     this.notifications = new PushNotifications();
   }

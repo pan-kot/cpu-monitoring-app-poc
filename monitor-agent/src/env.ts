@@ -1,7 +1,5 @@
 import dotenv from 'dotenv';
 
-import { Settings } from './types';
-
 const isProduction = process.env.NODE_ENV === 'production';
 
 dotenv.config();
@@ -13,14 +11,24 @@ if (!isProduction) {
 
 const port = getInt('PORT', 3001);
 
-const settings: Settings = {
+const cors = {
+  origin: getString('CORS_ORIGIN', `http://localhost:${port}`)
+};
+
+const settings = {
   tickInterval: getInt('TICK_INTERVAL_SECONDS', 10),
   maxTicks: getInt('MAX_TICKS', 60),
   highLoadThreshold: getTreshold('HIGH_LOAD_THRESHOLD'),
   recoveryThreshold: getTreshold('RECOVERY_THRESHOLD')
 };
 
-export default { isProduction, port, settings };
+export default { isProduction, port, cors, settings };
+
+function getString(key: string, defaultValue: string): string {
+  const property = process.env[key];
+
+  return property || defaultValue;
+}
 
 function getInt(key: string, defaultValue: number): number {
   const property = process.env[key];
