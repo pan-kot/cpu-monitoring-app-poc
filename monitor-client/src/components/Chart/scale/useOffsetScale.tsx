@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { scaleLinear } from '@visx/scale';
 
-import { Settings } from '../../domain';
+import { Settings } from '../../../domain';
 
 type TProps = {
   settings: Settings;
@@ -10,7 +10,7 @@ type TProps = {
 
 export default function useOffsetScale({ settings, xMax }: TProps) {
   return useMemo(() => {
-    const maxOffset = settings.maxTicks - 1;
+    const maxOffset = settings.maxTicks;
 
     return scaleLinear({
       domain: [-maxOffset, 0],

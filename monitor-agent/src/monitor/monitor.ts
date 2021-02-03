@@ -20,7 +20,7 @@ export default class Monitor {
   constructor(settings: Settings) {
     this.validateSettings(settings);
 
-    this.values = Array(settings.maxTicks);
+    this.values = Array(settings.maxTicks + 1);
     this.current = -1;
     this.events = {};
 

@@ -1,11 +1,11 @@
 import { memo, useCallback } from 'react';
 import { ThemeConsumer } from 'styled-components';
-import { curveNatural } from '@visx/curve';
+import { curveMonotoneX } from '@visx/curve';
 import { AreaClosed, LinePath } from '@visx/shape';
 
-import { TimeValue } from '../../domain';
+import { TimeValue } from '../../../domain';
 
-import { LoadScale, OffsetScale } from './types';
+import { LoadScale, OffsetScale } from '../types';
 
 type TProps = {
   timeseries: TimeValue[];
@@ -14,9 +14,16 @@ type TProps = {
 };
 
 function LoadCurve({ timeseries, loadScale, offsetScale }: TProps) {
-  const renderX = useCallback(tick => offsetScale(-tick.offset), [offsetScale]);
-  const renderY = useCallback(tick => loadScale(tick.value), [loadScale]);
-  const defined = useCallback(tick => Boolean(tick), []);
+  // TODO: refactor
+  const renderX = useCallback((_, index) => offsetScale(-index), [offsetScale]);
+  const renderY = useCallback(
+    tick => (tick ? loadScale(tick.value) : loadScale(0)),
+    [loadScale]
+  );
+  const defined = useCallback(
+    (_, index) => index === 0 || Boolean(timeseries[index - 1]),
+    [timeseries]
+  );
 
   return (
     <ThemeConsumer>
@@ -28,7 +35,7 @@ function LoadCurve({ timeseries, loadScale, offsetScale }: TProps) {
             y={renderY}
             yScale={loadScale}
             defined={defined}
-            curve={curveNatural}
+            curve={curveMonotoneX}
             fill={theme.chart.curve.area}
             stroke="none"
           />
@@ -38,7 +45,7 @@ function LoadCurve({ timeseries, loadScale, offsetScale }: TProps) {
             x={renderX}
             y={renderY}
             defined={defined}
-            curve={curveNatural}
+            curve={curveMonotoneX}
             stroke={theme.chart.curve.stroke}
             strokeWidth={1.5}
           />

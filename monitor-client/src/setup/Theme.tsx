@@ -5,6 +5,8 @@ import {
   DefaultTheme
 } from 'styled-components';
 
+import { EventType } from '../domain';
+
 type TThemeSetupProps = {
   children: React.ReactNode;
 };
@@ -35,20 +37,19 @@ const theme: DefaultTheme = {
       stroke: '#e0e0e0'
     },
     threshold: {
-      stroke: '#58508d'
+      stroke: '#d94750'
     },
     curve: {
       area: 'rgba(188, 80, 144, 0.15)',
       stroke: '#bc5090'
     },
-    event: {
-      highLoad: {
-        dot: '#d94750'
-      },
-      recovery: {
-        dot: '#52aa57'
-      }
+    cursor: {
+      stroke: '#495458'
     }
+  },
+  event: {
+    [EventType.HIGH_LOAD]: '#d94750',
+    [EventType.RECOVERY]: '#52aa57'
   }
 };
 

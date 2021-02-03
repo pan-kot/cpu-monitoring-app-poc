@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { ThemeConsumer } from 'styled-components';
 
-import { LoadScale } from './types';
+import { LoadScale } from '../types';
 
 type TProps = {
   xMax: number;

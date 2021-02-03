@@ -1,5 +1,7 @@
 import 'styled-components';
 
+import { EventType } from './domain';
+
 declare module 'styled-components' {
   export interface DefaultTheme {
     body: {
@@ -23,14 +25,13 @@ declare module 'styled-components' {
         area: string;
         stroke: string;
       };
-      event: {
-        highLoad: {
-          dot: string;
-        };
-        recovery: {
-          dot: string;
-        };
+      cursor: {
+        stroke: string;
       };
+    };
+    event: {
+      [EventType.HIGH_LOAD]: string;
+      [EventType.RECOVERY]: string;
     };
   }
 }

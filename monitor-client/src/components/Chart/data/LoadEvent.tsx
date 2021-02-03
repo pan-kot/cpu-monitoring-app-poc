@@ -2,9 +2,9 @@ import { memo } from 'react';
 import { ThemeConsumer } from 'styled-components';
 import { Circle } from '@visx/shape';
 
-import { TimeValue, EventType } from '../../domain';
+import { TimeValue } from '../../../domain';
 
-import { LoadScale, OffsetScale } from './types';
+import { LoadScale, OffsetScale } from '../types';
 
 type TProps = {
   tick: TimeValue;
@@ -16,10 +16,7 @@ function LoadEvent({ tick, offsetScale, loadScale }: TProps) {
   return (
     <ThemeConsumer>
       {theme => {
-        const color =
-          tick.event === EventType.HIGH_LOAD
-            ? theme.chart.event.highLoad.dot
-            : theme.chart.event.recovery.dot;
+        const color = tick.event ? theme.event[tick.event] : undefined;
 
         return (
           <>

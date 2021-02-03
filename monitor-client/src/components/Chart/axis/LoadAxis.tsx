@@ -1,9 +1,9 @@
 import { memo } from 'react';
 import { AxisLeft } from '@visx/axis';
 
-import i18n from '../../i18n';
+import i18n from '../../../i18n';
 
-import { LoadScale } from './types';
+import { LoadScale } from '../types';
 
 type TProps = {
   loadScale: LoadScale;

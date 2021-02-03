@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { scaleLinear } from '@visx/scale';
 
-import { Settings } from '../../domain';
+import { Settings } from '../../../domain';
 
 type TProps = {
   settings: Settings;

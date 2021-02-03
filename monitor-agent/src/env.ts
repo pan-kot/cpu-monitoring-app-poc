@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 import { Settings } from './types';
 
-export const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 dotenv.config();
 
@@ -11,14 +11,16 @@ if (!isProduction) {
   dotenv.config({ path: '.env.local' });
 }
 
-export const port = getInt('PORT', 3001);
+const port = getInt('PORT', 3001);
 
-export const settings: Settings = {
+const settings: Settings = {
   tickInterval: getInt('TICK_INTERVAL_SECONDS', 10),
   maxTicks: getInt('MAX_TICKS', 60),
   highLoadThreshold: getTreshold('HIGH_LOAD_THRESHOLD'),
   recoveryThreshold: getTreshold('RECOVERY_THRESHOLD')
 };
+
+export default { isProduction, port, settings };
 
 function getInt(key: string, defaultValue: number): number {
   const property = process.env[key];

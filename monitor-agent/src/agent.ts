@@ -4,7 +4,7 @@ import express from 'express';
 import { createServer, Server as HttpServer } from 'http';
 import { Server as WebSocketServer, Socket } from 'socket.io';
 
-import { Settings, Connected, Tick } from './types';
+import { Env, Settings, Connected, Tick } from './types';
 
 import Monitor from './monitor/monitor';
 
@@ -17,14 +17,14 @@ export default class MonitorAgent {
   private wss: WebSocketServer;
   private monitor: Monitor;
 
-  constructor(port: number, settings: Settings) {
-    this.port = port;
-    this.settings = settings;
+  constructor(env: Env) {
+    this.port = env.port;
+    this.settings = env.settings;
 
     this.app = express();
     this.server = createServer(this.app);
-    this.wss = new WebSocketServer(this.server);
-    this.monitor = new Monitor(settings);
+    this.wss = new WebSocketServer(this.server, { cors: { origin: '*' } });
+    this.monitor = new Monitor(env.settings);
   }
 
   run() {

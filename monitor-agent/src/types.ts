@@ -1,3 +1,5 @@
+import { Settings } from '@andrei-zhaleznichenka/cpu-monitor-agent-api';
+
 export {
   EventType,
   Connect,
@@ -8,3 +10,9 @@ export {
   History,
   Events
 } from '@andrei-zhaleznichenka/cpu-monitor-agent-api';
+
+export type Env = {
+  isProduction: boolean;
+  port: number;
+  settings: Settings;
+};

@@ -35,7 +35,7 @@ export class MonitorStore {
       disconnect: false
     });
 
-    this.socket = ioclient('/', { autoConnect: false });
+    this.socket = ioclient('ws://localhost:3001/', { autoConnect: false });
   }
 
   init = (settings: Settings, history: History) => {

@@ -1,7 +1,6 @@
-import * as env from './env';
-
+import env from './env';
 import MonitorAgent from './agent';
 
-const agent = new MonitorAgent(env.port, env.settings);
+const agent = new MonitorAgent(env);
 
 agent.run();

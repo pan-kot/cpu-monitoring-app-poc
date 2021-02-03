@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Settings } from '../../domain';
+import { Settings } from '../../../domain';
 
 type TProps = {
   settings: Settings;
@@ -11,7 +11,7 @@ export default function useOffsetTicks({ settings }: TProps) {
     const { tickInterval, maxTicks } = settings;
 
     const intervalsPerMinute = 60 / tickInterval;
-    const totalMinutes = Math.floor((maxTicks - 1) / intervalsPerMinute);
+    const totalMinutes = Math.floor(maxTicks / intervalsPerMinute);
 
     const ticks = [];
 
