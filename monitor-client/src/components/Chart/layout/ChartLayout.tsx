@@ -8,12 +8,14 @@ import type { ChartDimensions } from '../types';
 
 import ChartBackground from './ChartBackground';
 import ChartGrid from './ChartGrid';
+import OfflineOverlay from './OfflineOverlay';
 
 type THoverEvent =
   | React.TouchEvent<SVGRectElement>
   | React.MouseEvent<SVGRectElement>;
 
 type TProps = ChartDimensions & {
+  connected: boolean;
   children: React.ReactNode;
   xScale: ScaleLinear<any, any>;
   yScale: ScaleLinear<any, any>;
@@ -24,6 +26,7 @@ type TProps = ChartDimensions & {
 };
 
 function ChartLayout({
+  connected,
   children,
   height,
   width,
@@ -82,6 +85,8 @@ function ChartLayout({
           onMouseLeave={onBlur}
         />
       ) : null}
+
+      {!connected ? <OfflineOverlay width={width} height={height} /> : null}
     </svg>
   );
 }

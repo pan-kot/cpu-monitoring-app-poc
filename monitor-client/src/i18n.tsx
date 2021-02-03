@@ -15,6 +15,7 @@ const i18n = {
     event: 'Event',
     empty: 'No data.'
   },
+  offline: 'disconnected',
   event(type: EventType) {
     switch (type) {
       case EventType.HIGH_LOAD:
@@ -28,9 +29,9 @@ const i18n = {
   eventDescription(type: EventType) {
     switch (type) {
       case EventType.HIGH_LOAD:
-        return 'System is under high load.';
+        return 'CPU is under high load.';
       case EventType.RECOVERY:
-        return 'System recovered after high load.';
+        return 'CPU recovered from high load.';
       default:
         return '???';
     }

@@ -30,16 +30,17 @@ export class MonitorStore {
   events: Events = {};
 
   socket: typeof Socket;
+  connected: boolean;
   notifications: PushNotifications;
 
   constructor() {
     makeAutoObservable(this, {
       socket: false,
-      connect: false,
-      disconnect: false
+      notifications: false
     });
 
     this.socket = ioclient('ws://localhost:3001/', { autoConnect: false });
+    this.connected = false;
     this.notifications = new PushNotifications();
   }
 
@@ -77,6 +78,14 @@ export class MonitorStore {
     this.maximum = Math.max(this.maximum, value);
   };
 
+  setConnected = () => {
+    this.connected = true;
+  };
+
+  setDisconnected = () => {
+    this.connected = false;
+  };
+
   get timeseries(): TimeValue[] {
     const series = Array(this.values.length);
 
@@ -99,15 +108,22 @@ export class MonitorStore {
   connect = () => {
     this.socket.connect();
 
-    this.socket.emit('Connect', {});
+    this.socket.on('connect', () => {
+      this.socket.emit('Connect', {});
 
-    this.socket.on('Connected', ({ settings, history }: Connected) => {
-      this.init(settings, history);
+      this.socket.on('Connected', ({ settings, history }: Connected) => {
+        this.init(settings, history);
+      });
+
+      this.socket.on('Tick', (tick: Tick) => {
+        this.tick(tick);
+      });
     });
 
-    this.socket.on('Tick', (tick: Tick) => {
-      this.tick(tick);
-    });
+    // Handling connection status.
+    this.socket.on('connect', this.setConnected);
+    this.socket.on('connect_error', this.setDisconnected);
+    this.socket.on('disconnect', this.setDisconnected);
   };
 
   disconnect = () => {

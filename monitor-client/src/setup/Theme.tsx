@@ -45,6 +45,9 @@ const theme: DefaultTheme = {
     },
     cursor: {
       stroke: '#495458'
+    },
+    offline: {
+      overlay: 'rgba(255,255,255, 0.50)'
     }
   },
   event: {

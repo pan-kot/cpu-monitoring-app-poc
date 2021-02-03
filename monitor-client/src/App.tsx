@@ -19,17 +19,29 @@ export default function App() {
   return (
     <Setup>
       <Observer>
-        {() => (
-          <Layout>
-            <Title current={store.values[store.current]} />
+        {() => {
+          const {
+            connected,
+            settings,
+            values,
+            current,
+            maximum,
+            timeseries
+          } = store;
 
-            <Chart
-              settings={store.settings}
-              timeseries={store.timeseries}
-              maximum={store.maximum}
-            />
-          </Layout>
-        )}
+          return (
+            <Layout>
+              <Title current={connected ? values[current] : 0} />
+
+              <Chart
+                connected={connected}
+                settings={settings}
+                timeseries={timeseries}
+                maximum={maximum}
+              />
+            </Layout>
+          );
+        }}
       </Observer>
     </Setup>
   );

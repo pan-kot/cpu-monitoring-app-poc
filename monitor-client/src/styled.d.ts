@@ -28,6 +28,9 @@ declare module 'styled-components' {
       cursor: {
         stroke: string;
       };
+      offline: {
+        overlay: string;
+      };
     };
     event: {
       [EventType.HIGH_LOAD]: string;

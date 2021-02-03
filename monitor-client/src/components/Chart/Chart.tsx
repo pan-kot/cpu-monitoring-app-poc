@@ -48,6 +48,7 @@ const getTickByOffset = (timeseries: TimeValue[], offset: number) => {
 };
 
 export default function AverageLoadChart({
+  connected,
   settings,
   timeseries,
   maximum,
@@ -82,6 +83,7 @@ export default function AverageLoadChart({
     <>
       <ChartLayout
         {...dimensions}
+        connected={connected}
         xScale={offsetScale}
         yScale={loadScale}
         xTicks={offsetTicks}

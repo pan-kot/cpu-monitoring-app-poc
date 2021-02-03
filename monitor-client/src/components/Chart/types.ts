@@ -3,6 +3,7 @@ import { ScaleLinear } from 'd3-scale';
 import { Settings, TimeValue } from '../../domain';
 
 export type ChartProps = {
+  connected: boolean;
   settings: Settings;
   timeseries: TimeValue[];
   maximum: number;
