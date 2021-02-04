@@ -111,14 +111,14 @@ export class MonitorStore {
 
     this.socket.on('connect', () => {
       this.socket.emit('Connect', {});
+    });
 
-      this.socket.on('Connected', ({ settings, history }: Connected) => {
-        this.init(settings, history);
-      });
+    this.socket.on('Connected', ({ settings, history }: Connected) => {
+      this.init(settings, history);
+    });
 
-      this.socket.on('Tick', (tick: Tick) => {
-        this.tick(tick);
-      });
+    this.socket.on('Tick', (tick: Tick) => {
+      this.tick(tick);
     });
 
     // Handling connection status.
