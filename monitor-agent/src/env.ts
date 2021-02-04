@@ -15,12 +15,18 @@ const cors = {
   origin: getString('CORS_ORIGIN', `http://localhost:${port}`)
 };
 
-const settings = {
-  tickInterval: getInt('TICK_INTERVAL_SECONDS', 10),
-  maxTicks: getInt('MAX_TICKS', 60),
-  highLoadThreshold: getTreshold('HIGH_LOAD_THRESHOLD'),
-  recoveryThreshold: getTreshold('RECOVERY_THRESHOLD')
-};
+const settings = (() => {
+  const tickInterval = getInt('TICK_INTERVAL_SECONDS', 10);
+  const frameSize = getInt('FRAME_SIZE_SECONDS', 600);
+  const maxTicks = Math.floor(frameSize / tickInterval);
+
+  return {
+    tickInterval,
+    maxTicks,
+    highLoadThreshold: getTreshold('HIGH_LOAD_THRESHOLD', tickInterval),
+    recoveryThreshold: getTreshold('RECOVERY_THRESHOLD', tickInterval)
+  };
+})();
 
 export default { isProduction, port, cors, settings };
 
@@ -36,9 +42,10 @@ function getInt(key: string, defaultValue: number): number {
   return property ? parseInt(property, 10) : defaultValue;
 }
 
-function getTreshold(key: string) {
+function getTreshold(key: string, tickInterval: number) {
   const value = getInt(`${key}_VALUE`, 1);
-  const ticks = getInt(`${key}_TICKS`, 12);
+  const duration = getInt(`${key}_SECONDS`, 120);
+  const ticks = Math.floor(duration / tickInterval);
 
   return { value, ticks };
 }

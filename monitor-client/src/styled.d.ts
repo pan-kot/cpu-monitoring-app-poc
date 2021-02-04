@@ -18,9 +18,6 @@ declare module 'styled-components' {
       grid: {
         stroke: string;
       };
-      threshold: {
-        stroke: string;
-      };
       curve: {
         area: string;
         stroke: string;

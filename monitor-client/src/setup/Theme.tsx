@@ -36,9 +36,6 @@ const theme: DefaultTheme = {
     grid: {
       stroke: '#e0e0e0'
     },
-    threshold: {
-      stroke: '#d94750'
-    },
     curve: {
       area: 'rgba(188, 80, 144, 0.15)',
       stroke: '#bc5090'

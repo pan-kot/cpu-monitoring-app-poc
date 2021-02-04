@@ -99,7 +99,7 @@ export default function AverageLoadChart({
           top={yMax}
         />
 
-        <LoadThreshold xMax={xMax} loadScale={loadScale} />
+        <LoadThreshold xMax={xMax} loadScale={loadScale} settings={settings} />
 
         <LoadCurve
           timeseries={timeseries}
