@@ -1,0 +1,6 @@
+.git/
+**/tsconfig.tsbuildinfo
+**/node_modules/
+**/dist/
+**/build/
+*.log

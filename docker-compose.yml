@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  monitor-agent:
+    build:
+      context: .
+      dockerfile: ./monitor-agent/Dockerfile
+    image: 'development/monitor-agent:latest'
+    container_name: monitor-agent
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+      - '/app/monitor-agent-api/dist'
+    ports:
+      - 3001:3001
+    restart: 'no'
+
+  monitor-client:
+    build:
+      context: .
+      dockerfile: ./monitor-client/Dockerfile
+    image: 'development/monitor-client:latest'
+    container_name: monitor-client
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+      - '/app/monitor-agent-api/dist'
+    ports:
+      - 3000:3000
+    restart: 'no'

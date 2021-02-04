@@ -11,6 +11,7 @@
     "api": "yarn workspace @andrei-zhaleznichenka/cpu-monitor-agent-api",
     "agent": "yarn workspace @andrei-zhaleznichenka/cpu-monitor-agent",
     "client": "yarn workspace @andrei-zhaleznichenka/cpu-monitor-client",
+    "deps": "yarn api build",
     "test": "yarn agent test && yarn client test",
     "format": "yarn prettier --write .",
     "lint": "yarn tslint --project . --fix"
