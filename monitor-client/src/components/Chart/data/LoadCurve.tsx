@@ -14,12 +14,11 @@ type TProps = {
 };
 
 function LoadCurve({ timeseries, loadScale, offsetScale }: TProps) {
-  // TODO: refactor
   const renderX = useCallback((_, index) => offsetScale(-index), [offsetScale]);
-  const renderY = useCallback(
-    tick => (tick ? loadScale(tick.value) : loadScale(0)),
-    [loadScale]
-  );
+
+  const renderY = useCallback(tick => loadScale(tick?.value || 0), [loadScale]);
+
+  // Allow rendering all defined ticks + 1 to complete the curve in 0.
   const defined = useCallback(
     (_, index) => index === 0 || Boolean(timeseries[index - 1]),
     [timeseries]

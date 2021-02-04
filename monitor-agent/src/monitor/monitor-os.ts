@@ -1,5 +1,6 @@
 import os from 'os';
 
+// Helper for accessing OS data.
 export default class MonitorOS {
   private numCpus: number;
 

@@ -1,15 +1,9 @@
 import styled from 'styled-components';
 import AutoSize from 'react-virtualized-auto-sizer';
 
-import Chart from './Chart';
 import type { ChartProps } from './types';
-
-const margin = {
-  top: 40,
-  right: 30,
-  bottom: 50,
-  left: 40
-};
+import Chart from './Chart';
+import { ChartDimensionsContext, margin } from './useDimensions';
 
 export default function AverageLoadChartLoader(props: ChartProps) {
   return (
@@ -18,16 +12,12 @@ export default function AverageLoadChartLoader(props: ChartProps) {
         {({ width, height }) => {
           const xMax = width - margin.left - margin.right;
           const yMax = height - margin.top - margin.bottom;
+          const dimensions = { width, height, margin, xMax, yMax };
 
           return (
-            <Chart
-              {...props}
-              width={width}
-              height={height}
-              margin={margin}
-              xMax={xMax}
-              yMax={yMax}
-            />
+            <ChartDimensionsContext.Provider value={dimensions}>
+              <Chart {...props} />
+            </ChartDimensionsContext.Provider>
           );
         }}
       </AutoSize>

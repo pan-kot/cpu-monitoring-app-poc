@@ -3,7 +3,8 @@ import { useTooltip } from '@visx/tooltip';
 import { bisector } from 'd3-array';
 
 import { TimeValue } from '../../domain';
-import type { ChartProps, ChartDimensions } from './types';
+
+import type { ChartProps, TooltipData } from './types';
 
 import useLoadScale from './scale/useLoadScale';
 import useOffsetScale from './scale/useOffsetScale';
@@ -18,10 +19,8 @@ import LoadCurve from './data/LoadCurve';
 import LoadEvent from './data/LoadEvent';
 import LoadThreshold from './data/LoadThreshold';
 
-import Tooltip, { TTooltipData } from './tooltip/Tooltip';
+import Tooltip from './tooltip/Tooltip';
 import TooltipCursor from './tooltip/TooltipCursor';
-
-type TProps = ChartProps & ChartDimensions;
 
 type THoverCoordinates = { x: number; y: number };
 
@@ -51,19 +50,16 @@ export default function AverageLoadChart({
   connected,
   settings,
   timeseries,
-  maximum,
-  ...dimensions
-}: TProps) {
-  const { xMax, yMax, margin } = dimensions;
+  maximum
+}: ChartProps) {
+  const offsetScale = useOffsetScale({ settings });
 
-  const offsetScale = useOffsetScale({ settings, xMax });
-
-  const loadScale = useLoadScale({ settings, maximum, yMax });
+  const loadScale = useLoadScale({ settings, maximum });
 
   const offsetTicks = useOffsetTicks({ settings });
 
   const { showTooltip, hideTooltip, tooltipLeft, tooltipData } = useTooltip<
-    TTooltipData
+    TooltipData
   >();
 
   const onHover = useCallback(
@@ -82,7 +78,6 @@ export default function AverageLoadChart({
   return (
     <>
       <ChartLayout
-        {...dimensions}
         connected={connected}
         xScale={offsetScale}
         yScale={loadScale}
@@ -96,10 +91,9 @@ export default function AverageLoadChart({
           settings={settings}
           offsetScale={offsetScale}
           offsetTicks={offsetTicks}
-          top={yMax}
         />
 
-        <LoadThreshold xMax={xMax} loadScale={loadScale} settings={settings} />
+        <LoadThreshold loadScale={loadScale} settings={settings} />
 
         <LoadCurve
           timeseries={timeseries}
@@ -118,20 +112,10 @@ export default function AverageLoadChart({
             />
           ))}
 
-        {tooltipLeft !== undefined ? (
-          <TooltipCursor x={tooltipLeft} yMax={yMax} />
-        ) : null}
+        {tooltipLeft !== undefined ? <TooltipCursor x={tooltipLeft} /> : null}
       </ChartLayout>
 
-      {tooltipData ? (
-        <Tooltip
-          settings={settings}
-          data={tooltipData}
-          top={margin.top + 5}
-          left={xMax + margin.left - 10}
-          styles={{ transform: 'translateX(-100%)', width: 120 }}
-        />
-      ) : null}
+      {tooltipData ? <Tooltip settings={settings} data={tooltipData} /> : null}
     </>
   );
 }

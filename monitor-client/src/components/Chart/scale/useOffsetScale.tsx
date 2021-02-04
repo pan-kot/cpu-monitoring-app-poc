@@ -3,12 +3,15 @@ import { scaleLinear } from '@visx/scale';
 
 import { Settings } from '../../../domain';
 
+import useDimensions from '../useDimensions';
+
 type TProps = {
   settings: Settings;
-  xMax: number;
 };
 
-export default function useOffsetScale({ settings, xMax }: TProps) {
+export default function useOffsetScale({ settings }: TProps) {
+  const { xMax } = useDimensions();
+
   return useMemo(() => {
     const maxOffset = settings.maxTicks;
 

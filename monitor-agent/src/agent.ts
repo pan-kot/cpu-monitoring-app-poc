@@ -35,6 +35,12 @@ export default class MonitorAgent {
     this.wss.on('connection', (socket: Socket) => {
       console.log('Client connected.');
 
+      // Sending monitor ticks to the client.
+      const listener = (tick: Tick) => {
+        socket.emit('Tick', tick);
+      };
+
+      // Expecting "Connect" msg to start a monitor subscription.
       socket.on('Connect', () => {
         const message: Connected = {
           settings: this.settings,
@@ -43,12 +49,12 @@ export default class MonitorAgent {
 
         socket.emit('Connected', message);
 
-        this.monitor.subscribe((tick: Tick) => {
-          socket.emit('Tick', tick);
-        });
+        this.monitor.subscribe(listener);
       });
 
       socket.on('disconnect', () => {
+        this.monitor.unsubscribe(listener);
+
         console.log('Client disconnected.');
       });
     });

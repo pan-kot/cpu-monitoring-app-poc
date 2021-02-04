@@ -3,16 +3,18 @@ import { ThemeConsumer } from 'styled-components';
 import { GridRows, GridColumns } from '@visx/grid';
 import { ScaleLinear } from 'd3-scale';
 
+import useDimensions from '../useDimensions';
+
 type TProps = {
-  xMax: number;
-  yMax: number;
   xScale: ScaleLinear<any, any>;
   yScale: ScaleLinear<any, any>;
   xTicks?: number[];
   yTicks?: number[];
 };
 
-function ChartGrid({ xMax, yMax, xScale, yScale, xTicks, yTicks }: TProps) {
+function ChartGrid({ xScale, yScale, xTicks, yTicks }: TProps) {
+  const { xMax, yMax } = useDimensions();
+
   return (
     <ThemeConsumer>
       {theme => (

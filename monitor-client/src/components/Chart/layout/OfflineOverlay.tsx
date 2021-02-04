@@ -3,12 +3,11 @@ import { ThemeContext } from 'styled-components';
 
 import i18n from '../../../i18n';
 
-type TProps = {
-  width: number;
-  height: number;
-};
+import useDimensions from '../useDimensions';
 
-function OfflineOverlay({ width, height }: TProps) {
+function OfflineOverlay() {
+  const { width, height } = useDimensions();
+
   const theme = useContext(ThemeContext);
 
   return (

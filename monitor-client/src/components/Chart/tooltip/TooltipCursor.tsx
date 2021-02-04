@@ -2,12 +2,15 @@ import { memo } from 'react';
 import { Line } from '@visx/shape';
 import { ThemeConsumer } from 'styled-components';
 
+import useDimensions from '../useDimensions';
+
 type TProps = {
   x: number;
-  yMax: number;
 };
 
-function TooltipCursor({ x, yMax }: TProps) {
+function TooltipCursor({ x }: TProps) {
+  const { yMax } = useDimensions();
+
   return (
     <ThemeConsumer>
       {theme => (

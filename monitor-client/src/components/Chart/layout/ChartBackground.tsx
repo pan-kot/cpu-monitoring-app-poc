@@ -1,12 +1,11 @@
 import { useContext, memo } from 'react';
 import { ThemeContext } from 'styled-components';
 
-type TProps = {
-  width: number;
-  height: number;
-};
+import useDimensions from '../useDimensions';
 
-function ChartBackground({ width, height }: TProps) {
+function ChartBackground() {
+  const { width, height } = useDimensions();
+
   const theme = useContext(ThemeContext);
 
   return (

@@ -2,15 +2,18 @@ import { memo } from 'react';
 import { ThemeConsumer } from 'styled-components';
 
 import { EventType, Settings } from '../../../domain';
+
 import { LoadScale } from '../types';
+import useDimensions from '../useDimensions';
 
 type TProps = {
   settings: Settings;
   loadScale: LoadScale;
-  xMax: number;
 };
 
-function LoadThreshold({ settings, loadScale, xMax }: TProps) {
+function LoadThreshold({ settings, loadScale }: TProps) {
+  const { xMax } = useDimensions();
+
   return (
     <ThemeConsumer>
       {theme => (

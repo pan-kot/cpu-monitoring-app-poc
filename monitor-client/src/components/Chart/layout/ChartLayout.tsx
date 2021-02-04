@@ -4,17 +4,17 @@ import { Bar } from '@visx/shape';
 import { ScaleLinear } from 'd3-scale';
 import { localPoint } from '@visx/event';
 
-import type { ChartDimensions } from '../types';
+import useDimensions from '../useDimensions';
 
 import ChartBackground from './ChartBackground';
 import ChartGrid from './ChartGrid';
 import OfflineOverlay from './OfflineOverlay';
 
-type THoverEvent =
+type HoverEvent =
   | React.TouchEvent<SVGRectElement>
   | React.MouseEvent<SVGRectElement>;
 
-type TProps = ChartDimensions & {
+type TProps = {
   connected: boolean;
   children: React.ReactNode;
   xScale: ScaleLinear<any, any>;
@@ -28,11 +28,6 @@ type TProps = ChartDimensions & {
 function ChartLayout({
   connected,
   children,
-  height,
-  width,
-  margin,
-  xMax,
-  yMax,
   xScale,
   yScale,
   xTicks,
@@ -40,8 +35,10 @@ function ChartLayout({
   onHover,
   onBlur
 }: TProps) {
+  const { height, width, margin, xMax, yMax } = useDimensions();
+
   const handleHover = useCallback(
-    (event: THoverEvent) => {
+    (event: HoverEvent) => {
       if (onHover) {
         const coordinates = localPoint(event);
 
@@ -57,12 +54,10 @@ function ChartLayout({
 
   return (
     <svg height={height} width={width}>
-      <ChartBackground width={width} height={height} />
+      <ChartBackground />
 
       <Group left={margin.left} top={margin.top}>
         <ChartGrid
-          xMax={xMax}
-          yMax={yMax}
           xScale={xScale}
           yScale={yScale}
           xTicks={xTicks}
@@ -86,7 +81,7 @@ function ChartLayout({
         />
       ) : null}
 
-      {!connected ? <OfflineOverlay width={width} height={height} /> : null}
+      {!connected ? <OfflineOverlay /> : null}
     </svg>
   );
 }

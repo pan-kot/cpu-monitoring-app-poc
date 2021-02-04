@@ -15,6 +15,9 @@ const cors = {
   origin: getString('CORS_ORIGIN', `http://localhost:${port}`)
 };
 
+// Taking environment configuration and transforming frame size
+// and thresholds duration from seconds to number of ticks in respect
+// to tick interval.
 const settings = (() => {
   const tickInterval = getInt('TICK_INTERVAL_SECONDS', 10);
   const frameSize = getInt('FRAME_SIZE_SECONDS', 600);

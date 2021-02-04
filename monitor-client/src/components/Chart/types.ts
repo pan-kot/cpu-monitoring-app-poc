@@ -25,3 +25,5 @@ export type ChartDimensions = {
 export type OffsetScale = ScaleLinear<number, number>;
 
 export type LoadScale = ScaleLinear<number, number>;
+
+export type TooltipData = { tick: null | TimeValue };

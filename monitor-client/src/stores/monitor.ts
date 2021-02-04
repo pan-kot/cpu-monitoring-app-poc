@@ -15,6 +15,7 @@ import i18n from '../i18n';
 import PushNotifications from '../util/push-notifications';
 import initSocket from '../api/init-socket';
 
+// Used to render the chart when the connection is not yet established.
 const defaultSettings = {
   tickInterval: 10,
   maxTicks: 60,
@@ -25,9 +26,13 @@ const defaultSettings = {
 export class MonitorStore {
   settings: Settings = defaultSettings;
 
-  current: number = -1;
+  // Array of average CPU loads taken for each tick interval.
   values: (null | number)[] = [];
+  // Current value index never exceeding values length.
+  current: number = -1;
+  // Maximum value of all ticks (not contained to a frame size).
   maximum: number = 0;
+  // Events per tick within frame size.
   events: Events = {};
 
   socket: typeof Socket;
@@ -45,6 +50,7 @@ export class MonitorStore {
     this.notifications = new PushNotifications();
   }
 
+  // Accept settings and historical data from the server and calculate maximum.
   init = (settings: Settings, history: History) => {
     this.settings = settings;
 
@@ -60,6 +66,8 @@ export class MonitorStore {
     }
   };
 
+  // Accept last tick data from the server and update maximum if needed.
+  // Spawn push notification for every new event.
   tick = ({ value, event }: Tick) => {
     if (!this.settings) {
       throw new Error('Invariant violation: cannot tick when settings unset.');
@@ -87,6 +95,7 @@ export class MonitorStore {
     this.connected = false;
   };
 
+  // Creates a normalized list of time-values from right to left.
   get timeseries(): TimeValue[] {
     const series = Array(this.values.length);
 
@@ -109,6 +118,8 @@ export class MonitorStore {
   connect = () => {
     this.socket.connect();
 
+    // Requesting server settings and historical data every time socket
+    // is connected to handle server downtimes properly.
     this.socket.on('connect', () => {
       this.socket.emit('Connect', {});
     });

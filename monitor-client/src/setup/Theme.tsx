@@ -73,7 +73,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
 
     font-size: 14px;
-    font-family: Lato;
+    font-family: Lato, sans-serif;
     color: ${props => props.theme.body.fg};
 
     background: ${props => props.theme.body.bg};

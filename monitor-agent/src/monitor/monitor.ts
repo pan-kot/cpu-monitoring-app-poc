@@ -5,12 +5,14 @@ import MonitorOs from './monitor-os';
 
 type Listener = (tick: Tick) => void;
 
+// Creates a process for accessing CPU load data every tick interval
+// and maintains one frame of load values and events.
 export default class Monitor {
   // Array of average CPU loads taken for each tick interval.
   private values: number[];
   // Current value index never exceeding values length.
   private current: number;
-  // Events per tick within max interval.
+  // Events per tick within frame size.
   private events: Events;
 
   private os: MonitorOs;
@@ -65,23 +67,29 @@ export default class Monitor {
     this.listeners = this.listeners.filter(it => it !== listenerToRemove);
   }
 
-  private run(interval: number) {
+  private run(intervalSeconds: number) {
     setInterval(() => {
       const length = this.values.length;
-
       const value = this.os.averageCpuLoad;
 
+      // Move current to the next index or 0 if it reaches values length.
       this.current = this.current + 1 < length ? this.current + 1 : 0;
+
+      // Update current value.
       this.values[this.current] = value;
+
+      // Delete historical event that is now out of bounds.
       delete this.events[this.current];
 
+      // Insert new event to the current index if available.
       const event = this.eventGenerator.next(value);
       if (event) {
         this.events[this.current] = event;
       }
 
+      // Notify listeners.
       this.listeners.forEach(listener => listener({ value, event }));
-    }, interval * 1000);
+    }, intervalSeconds * 1000);
   }
 
   private validateSettings(settings: Settings) {

@@ -7,13 +7,13 @@ const i18n = {
   chart: {
     loadAxis: {
       label: 'Avgerage Load'
+    },
+    tooltip: {
+      offset: 'Offset',
+      load: 'Load',
+      event: 'Event',
+      empty: 'No data.'
     }
-  },
-  tooltip: {
-    offset: 'Offset',
-    load: 'Load',
-    event: 'Event',
-    empty: 'No data.'
   },
   offline: 'disconnected',
   event(type: EventType) {
