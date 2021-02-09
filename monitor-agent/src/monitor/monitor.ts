@@ -1,5 +1,6 @@
 import { Settings, History, Tick, Events } from '../types';
 
+import setStableInterval from './stable-interval';
 import EventGenerator from './event-generator';
 import MonitorOs from './monitor-os';
 
@@ -68,7 +69,7 @@ export default class Monitor {
   }
 
   private run(intervalSeconds: number) {
-    setInterval(() => {
+    setStableInterval(() => {
       const length = this.values.length;
       const value = this.os.averageCpuLoad;
 
@@ -89,7 +90,7 @@ export default class Monitor {
 
       // Notify listeners.
       this.listeners.forEach(listener => listener({ value, event }));
-    }, intervalSeconds * 1000);
+    }, intervalSeconds);
   }
 
   private validateSettings(settings: Settings) {

@@ -4,16 +4,6 @@ Client-server CPU monitoring application built in TypeScript.
 
 ![Screenshot](./docs/screenshot.png)
 
-## For The Reviewer
-
-Dear Reviewer,
-
-I hope you enjoy my work and the code will appear clear to you.
-
-In case you have any questions or trouble starting the app please reach me out by E-Mail: andrei.zhaleznichenka@gmail.com.
-
-Have Fun!
-
 ## Limitations
 
 The monitoring agent is designed to support UNIX-machines only and it will show no load if running on a Windows computer.
